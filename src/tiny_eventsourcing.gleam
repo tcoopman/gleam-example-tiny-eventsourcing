@@ -1,3 +1,5 @@
+import gleam/list
+
 pub opaque type MarsRover {
   Rover(position: Position, direction: Direction)
 }
@@ -25,6 +27,15 @@ pub fn state(rover: MarsRover) -> #(Position, Direction) {
   #(rover.position, rover.direction)
 }
 
-pub fn execute(rover: MarsRover, _commands: List(Command)) -> MarsRover {
-  rover
+pub fn execute(rover: MarsRover, commands: List(Command)) -> MarsRover {
+  list.fold(commands, rover, execute_one)
+}
+
+fn execute_one(rover: MarsRover, command: Command) -> MarsRover {
+  case command {
+    Forward -> {
+      let position = Position(..rover.position, x: rover.position.x + 1)
+      Rover(..rover, position: position)
+    }
+  }
 }
