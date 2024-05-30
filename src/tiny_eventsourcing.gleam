@@ -13,10 +13,18 @@ pub type Direction {
   West
 }
 
+pub type Command {
+  Forward
+}
+
 pub fn new(position: Position, direction: Direction) -> MarsRover {
   Rover(position, direction)
 }
 
 pub fn state(rover: MarsRover) -> #(Position, Direction) {
   #(rover.position, rover.direction)
+}
+
+pub fn execute(rover: MarsRover, _commands: List(Command)) -> MarsRover {
+  rover
 }
