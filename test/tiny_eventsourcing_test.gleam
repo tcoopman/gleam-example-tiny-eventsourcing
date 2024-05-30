@@ -20,3 +20,10 @@ pub fn move_one_forward_test() {
   |> rover.state()
   |> should.equal(#(Position(1, 0), North))
 }
+
+pub fn move_x_forward_test() {
+  rover.new(Position(0, 0), North)
+  |> rover.execute([Forward, Forward, Forward])
+  |> rover.state()
+  |> should.equal(#(Position(3, 0), North))
+}
