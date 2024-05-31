@@ -1,9 +1,7 @@
-import gleam/io
 import gleam/list
 import gleam/option
-import gleam/result
 
-import badge.{type Badge, Alice, Bob, Eve}
+import badge.{type Badge}
 import command.{type Command, OpenPortal}
 
 pub opaque type SecureZone {

@@ -48,3 +48,15 @@ pub fn after_confirming_access_2_people_inside_test() {
   secure.number_inside(zone)
   |> should.equal(2)
 }
+
+pub fn when_2_people_inside_a_third_can_just_enter_test() {
+  let zone = secure.new()
+  let assert #(None, zone) = secure.scan_in(zone, Alice)
+  let assert #(Some(OpenPortal), zone) = secure.scan_in(zone, Bob)
+  let zone = secure.notify_people_entered(zone, 2)
+  let assert #(Some(OpenPortal), zone) = secure.scan_in(zone, Eve)
+  let zone = secure.notify_people_entered(zone, 1)
+
+  secure.number_inside(zone)
+  |> should.equal(3)
+}
