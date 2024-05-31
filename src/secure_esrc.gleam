@@ -6,7 +6,6 @@ import command.{type Command, OpenPortal}
 
 pub opaque type Event {
   BadgeRead(Badge)
-  SecondBadgeRead(Badge)
   PersonEntered(Badge)
   AccessGranted(Badge)
 }
@@ -65,7 +64,7 @@ fn do_scan_in(state: State, badge: Badge) -> List(Event) {
   case number_of_people_inside, state.badges_waiting_to_enter {
     x, [] if x >= 2 -> [BadgeRead(badge), AccessGranted(badge)]
     _, [] -> [BadgeRead(badge)]
-    _, [b] if b != badge -> [SecondBadgeRead(badge), AccessGranted(badge)]
+    _, [b] if b != badge -> [BadgeRead(badge), AccessGranted(badge)]
     _, [b] if b == badge -> []
     _, _ -> panic
   }
@@ -82,8 +81,7 @@ fn notify_people_entered2(state: State, count: Int) -> List(Event) {
 fn apply(history: List(Event)) -> State {
   list.fold(history, initial_state, fn(state, event) {
     case event {
-      BadgeRead(badge) -> State(..state, badges_waiting_to_enter: [badge])
-      SecondBadgeRead(badge) ->
+      BadgeRead(badge) ->
         State(
           ..state,
           badges_waiting_to_enter: [badge, ..state.badges_waiting_to_enter],
